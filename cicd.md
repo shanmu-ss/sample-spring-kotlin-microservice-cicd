@@ -2,7 +2,7 @@
 
 > Sandbox Created [space link](https://console-openshift-console.apps.sandbox-m2.ll9k.p1.openshiftapps.com)
 
----
+----
 
 ## Pipeline: sample-java-pipeline
 
