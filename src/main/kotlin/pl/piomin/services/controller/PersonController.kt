@@ -32,6 +32,11 @@ class PersonController(val repository: PersonRepository) {
         return repository.findAll()
     }
 
+    @GetMapping("/")
+    fun hello(): String {
+        return "Hello, World!"
+    }    
+
     @PostMapping
     fun add(@RequestBody person: Person): Person = repository.save(person)
 
