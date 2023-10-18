@@ -1,18 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sample-spring-kotlin-microservice
+  name: webapp-deployment
+  labels:
+    app: webapp
 spec:
+  replicas: 3
   selector:
     matchLabels:
-      app: sample-spring-kotlin-microservice
+      app: webapp
   template:
     metadata:
       labels:
-        app: sample-spring-kotlin-microservice
+        app: webapp
     spec:
       containers:
-      - name: sample-spring-kotlin-microservice
-        image: piomin/sample-spring-kotlin-microservice
+      - name: webapp-container
+        image: ragreg.azurecr.io/ragreg/spring-kotlin:1.5.1
         ports:
         - containerPort: 8080
