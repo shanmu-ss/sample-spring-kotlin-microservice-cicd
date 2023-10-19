@@ -14,8 +14,8 @@
 
 	<properties>
 		<java.version>17</java.version>
-		<sonar.projectKey>piomin_sample-spring-kotlin-microservice</sonar.projectKey>
-		<sonar.organization>piomin</sonar.organization>
+		<sonar.projectKey>shanmu-ss_sample-spring-kotlin-microservice-cicd</sonar.projectKey>
+		<sonar.organization>cicdsonarqube</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<kotlin.version>1.9.10</kotlin.version>
 	</properties>
