@@ -1,4 +1,4 @@
-## Kotlin Microservice with SpringBoot.  [![Twitter](https://img.shields.io/twitter/follow/piotr_minkowski.svg?style=social&logo=twitter&label=Follow%20Me)](https://twitter.com/piotr_minkowski)
+## Kotlin Microservice with SpringBoot  [![Twitter](https://img.shields.io/twitter/follow/piotr_minkowski.svg?style=social&logo=twitter&label=Follow%20Me)](https://twitter.com/piotr_minkowski)
 
 [![CircleCI](https://circleci.com/gh/piomin/sample-spring-kotlin-microservice.svg?style=svg)](https://circleci.com/gh/piomin/sample-spring-kotlin-microservice)
 
