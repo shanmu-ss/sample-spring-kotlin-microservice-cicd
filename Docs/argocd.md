@@ -1,5 +1,3 @@
----
-
 # ArgoCD Installation and Application Creation Guide
 
 ## Table of Contents
