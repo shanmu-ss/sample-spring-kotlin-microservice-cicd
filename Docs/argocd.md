@@ -70,6 +70,71 @@ kubectl get svc -n argocd
 
 ---
 
+## Kubernetes Installation on a Local Windows Machine
+
+Before installing ArgoCD on your local Windows machine, you need to have a Kubernetes cluster running. Here's a guide to setting up a local Kubernetes cluster on Windows using Minikube:
+
+### Prerequisites:
+
+- **Windows 10 Pro or Enterprise**: Minikube requires a virtualization-capable environment. Ensure you have Hyper-V or VirtualBox installed.
+- **Install Chocolatey**: Chocolatey is a package manager for Windows.
+
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+```
+
+### Installing Minikube:
+
+1. **Install Minikube using Chocolatey**:
+
+```powershell
+choco install minikube
+```
+
+2. **Install kubectl**:
+
+kubectl is the command-line tool for interacting with Kubernetes clusters. Install it using Chocolatey:
+
+```powershell
+choco install kubernetes-cli
+```
+
+3. **Start Minikube**:
+
+```powershell
+minikube start --vm-driver=hyperv
+```
+
+Note: If you're using VirtualBox, replace `--vm-driver=hyperv` with `--vm-driver=virtualbox`.
+
+4. **Verify Installation**:
+
+To ensure Minikube is up and running:
+
+```powershell
+minikube status
+```
+
+You should see the status of the minikube, host, kubelet, and API server. If they're all running, you're good to go!
+
+5. **Access Kubernetes Dashboard**:
+
+Minikube comes with a built-in dashboard that allows you to manage and monitor your Kubernetes cluster:
+
+```powershell
+minikube dashboard
+```
+
+This will open up the Kubernetes dashboard in your default web browser.
+
+### Conclusion:
+
+You now have a running Kubernetes cluster on your local Windows machine using Minikube. You can proceed with the ArgoCD installation steps mentioned in the previous sections.
+
+---
+
+After setting up Kubernetes on your local Windows machine, you can follow the "Local Windows Machine with Kubernetes" section in the provided guide to install ArgoCD.
+
 ### Local Windows Machine with Kubernetes
 
 Ensure your local Kubernetes cluster (e.g., Minikube or Docker Desktop) is running and then follow the same steps as the AKS installation above.
