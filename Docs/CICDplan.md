@@ -1,5 +1,8 @@
 ## CI/CD Plan for RedHat OpenShift Dedicated Sandbox with Tekton
 
+![plan](tekton-argocd-kubernetes.webp)
+
+
 ### Prerequisites:
 
 1. An active RedHat OpenShift Dedicated Sandbox environment.
