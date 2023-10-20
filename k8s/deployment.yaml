@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: webapp-container
-        image: ragreg.azurecr.io/ragreg/spring-kotlin:latest
+        image: ragregdemo.azurecr.io/ragregdemo/spring-kotlin:latest
         ports:
         - containerPort: 8080
