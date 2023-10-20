@@ -131,9 +131,9 @@ This will open up the Kubernetes dashboard in your default web browser.
 
 You now have a running Kubernetes cluster on your local Windows machine using Minikube. You can proceed with the ArgoCD installation steps mentioned in the previous sections.
 
----
-
 After setting up Kubernetes on your local Windows machine, you can follow the "Local Windows Machine with Kubernetes" section in the provided guide to install ArgoCD.
+
+---
 
 ### Local Windows Machine with Kubernetes
 
