@@ -392,7 +392,7 @@ Apply this pipeline to your OpenShift environment:
 oc apply -f https://raw.githubusercontent.com/shanmu-ss/sample-spring-kotlin-microservice-cicd/master/yaml/cicdpipeline.yaml
 ```
 
-### step : Setting Up trigger
+### step 4 : Setting Up trigger
 
 #### Trigger-template
 
