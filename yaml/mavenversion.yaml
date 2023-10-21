@@ -1,0 +1,36 @@
+# Maven Get Project Version Task
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: maven-get-project-version
+spec:
+  params:
+    - default: >-
+        gcr.io/cloud-builders/mvn@sha256:57523fc43394d6d9d2414ee8d1c85ed7a13460cbb268c3cd16d28cfb3859e641
+      description: Maven base image
+      name: MAVEN_IMAGE
+      type: string
+    - default: .
+      description: >-
+        The context directory within the repository for sources on which we want
+        to execute maven goals.
+      name: CONTEXT_DIR
+      type: string
+  results:
+    - description: Project version read from pom.xml
+      name: version
+      type: string
+  steps:
+    - image: $(params.MAVEN_IMAGE)
+      name: mvn-command
+      resources: {}
+      script: >
+        #!/usr/bin/env bash
+
+        VERSION=$(/usr/bin/mvn help:evaluate -Dexpression=project.version -q
+        -DforceStdout)
+
+        echo -n $VERSION | tee $(results.version.path)
+      workingDir: $(workspaces.source.path)/$(params.CONTEXT_DIR)
+  workspaces:
+    - name: source

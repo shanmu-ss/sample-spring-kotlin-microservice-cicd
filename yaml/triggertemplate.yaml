@@ -1,0 +1,27 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: sample-github-template
+spec:
+  params:
+    - default: main
+      description: The git revision
+      name: git-revision
+    - description: The git repository url
+      name: git-repo-url
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        generateName: sample-java-pipeline-run-
+      spec:
+        pipelineRef:
+          name: sample-java-pipeline
+        serviceAccountName: pipeline
+        workspaces:
+          - name: source-dir
+            persistentVolumeClaim:
+              claimName: pvc01
+          - configMap:
+              name: sonar-properties
+            name: sonar-settings

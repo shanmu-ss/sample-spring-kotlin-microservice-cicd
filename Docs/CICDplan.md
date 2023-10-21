@@ -9,7 +9,27 @@
 2. Tekton Pipelines installed in your OpenShift cluster.
 3. A GitHub repository to store your application and pipeline configuration.
 
-### Step 1: Setting up Storage
+### Step 1 : Create Secret
+
+Need to create Secret for accessing sonarqube and azure container registry.
+
+#### Sonarqube Secret 
+
+```oc
+oc create secret generic sonar-token --from-literal=SONAR_TOKEN=<Paste the Given password> 
+```
+
+Remove <> suppose to look like this --from-literal=SONAR_TOKEN=1123897945792134
+
+#### Azure Container Registry Secret
+
+```oc
+oc create secret generic docker-creds --from-literal=DOCKER_PASSWORD=<Paste the Given password> 
+```
+
+Remove <> suppose to look like this --from-literal=DOCKER_PASSWORD=1123897945792134
+
+### Step 1: Setting up Storage Reference
 
 Before we begin the pipeline, we need storage for our pipeline's workspaces. Here's a Persistent Volume Claim (PVC) that can be used:
 
@@ -40,14 +60,14 @@ status:
 Apply this PVC configuration to your OpenShift environment:
 
 ```bash
-oc apply -f pvc.yaml
+oc apply -f https://raw.githubusercontent.com/shanmu-ss/sample-spring-kotlin-microservice-cicd/master/yaml/storage.yaml
 ```
 
-### Step 2: Define the Tekton Tasks
+### Step 2: Define the Tekton Tasks Reference:
 
 Tasks define a series of steps to execute. We will need several tasks for our CI/CD pipeline, such as cloning the repository, running tests, scanning the code with SonarQube, and building & pushing the container image.
 
-#### 1. SonarQube Scanner Task:
+#### 1. SonarQube Scanner Task Reference:
 
 ```yaml
 # SonarQube Scanner Task
@@ -97,7 +117,13 @@ spec:
     - name: sonar-settings
 ```
 
-#### 2. Get Maven Project Version Task:
+Apply these tasks to your OpenShift environment:
+
+```bash
+oc apply -f https://raw.githubusercontent.com/shanmu-ss/sample-spring-kotlin-microservice-cicd/master/yaml/sonarqube.yaml
+```
+
+#### 2. Get Maven Project Version Task Reference:
 
 ```yaml
 # Maven Get Project Version Task
@@ -139,7 +165,13 @@ spec:
     - name: source
 ```
 
-#### 3. Build and Push Image Task:
+Apply these tasks to your OpenShift environment:
+
+```bash
+oc apply -f https://raw.githubusercontent.com/shanmu-ss/sample-spring-kotlin-microservice-cicd/master/yaml/mavenversion.yaml
+```
+
+#### 3. Build and Push Image Task Reference:
 
 ```yaml
 # Jib Maven Build and Push Task
@@ -265,7 +297,7 @@ spec:
 Apply these tasks to your OpenShift environment:
 
 ```bash
-oc apply -f tasks.yaml
+oc apply -f https://raw.githubusercontent.com/shanmu-ss/sample-spring-kotlin-microservice-cicd/master/yaml/buildandpush.yaml
 ```
 
 ### Step 3: Define the Pipeline
@@ -357,20 +389,67 @@ spec:
 Apply this pipeline to your OpenShift environment:
 
 ```bash
-oc apply -f pipeline.yaml
+oc apply -f https://raw.githubusercontent.com/shanmu-ss/sample-spring-kotlin-microservice-cicd/master/yaml/cicdpipeline.yaml
 ```
+
+### step : Setting Up trigger
+
+#### Trigger-template
+
+```bash
+oc apply -f https://raw.githubusercontent.com/shanmu-ss/sample-spring-kotlin-microservice-cicd/master/yaml/triggertemplate.yaml
+```
+
+#### eventlisterner
+
+```bash
+oc apply -f https://raw.githubusercontent.com/shanmu-ss/sample-spring-kotlin-microservice-cicd/master/yaml/eventlistener.yaml
+```
+
+#### Use this commands to find webhoot url 
+
+```
+$ oc get svc
+```
+
+##### Output:
+```
+NAME                                  TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+el-sample-github-listener             ClusterIP   172.30.88.73   <none>        8080/TCP   2d1h
+```
+```
+$ oc expose svc el-sample-github-listener
+$ oc get route
+```
+##### Output
+```
+NAME         HOST/PORT                                                             PATH   SERVICES       
+                PORT            TERMINATION   WILDCARD
+el-example   el-sample-github-listener-piotr-cicd.apps.qyt1tahi.eastus.aroapp.io          el-sample-github-listener   http-listener                 None
+```
+
+### Github webhook addition:
+
+Go to github Repository where trigger need to be configured. 
+
+- In Github repo, click **Setting** and look for webhook
+
+![webhook](Screenshotwebhook.png)
+
+- Move to webhook addition page and Click webhook addition button
+
+![Screenshotwebhook.png](add_webhoot.png)
+
+- Fetch the url returned from oc get route and the space with prifix **http://** like this 
+**http://el-sample-github-listener-piotr-cicd.apps.qyt1tahi.eastus.aroapp.io** 
+
+
+![Screenshotwebhook.png](Screenshotdetails.png)
+
 
 ### Step 4: Execute the Pipeline
 
-Now, you can start the pipeline, providing the necessary parameters:
-
-```bash
-tkn pipeline start sample-java-pipeline -n tinlam2-dev --workspace name=source-dir,pvc=pvc01
-```
-
-### Monitoring the Pipeline:
-
-You can monitor the progress of the pipeline through the OpenShift console or using the `tkn` CLI tool.
+Now, you can start the pipeline, by commit github repo. if push/update any code in the repo. pipeline will trigger
 
 ---
 

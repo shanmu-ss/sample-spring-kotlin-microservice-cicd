@@ -1,0 +1,20 @@
+# Storage Configuration
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc01
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  volumeName: pvc-33bf365f-ea52-411a-9d0a-673aaea645e0
+  storageClassName: gp2
+  volumeMode: Filesystem
+status:
+  phase: Bound
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 2Gi
