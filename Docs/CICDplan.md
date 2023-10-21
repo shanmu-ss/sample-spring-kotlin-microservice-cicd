@@ -9,7 +9,7 @@
 2. Tekton Pipelines installed in your OpenShift cluster.
 3. A GitHub repository to store your application and pipeline configuration.
 
-### Step 1 : Create Secret
+### Step 0: Create Secret
 
 Need to create Secret for accessing sonarqube and azure container registry.
 
